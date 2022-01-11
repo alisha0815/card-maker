@@ -1,10 +1,20 @@
-import { getAuth, signInWithPopup } from 'firebase/auth';
+import {
+  getAuth,
+  signInWithPopup,
+  GoogleAuthProvider,
+  GithubAuthProvider,
+} from 'firebase/auth';
 
 class AuthService {
+  constructor() {
+    this.firebaseAuth = getAuth();
+    this.googleProvider = new GoogleAuthProvider();
+    this.GithubAuthProvider = new GithubAuthProvider();
+  }
+
   login(providerName) {
-    const auth = getAuth();
-    const authProvider = new `${providerName}AuthProvider`();
-    return signInWithPopup(auth, authProvider);
+    const authProvider = this.getProvider(providerName);
+    return signInWithPopup(this.firebaseAuth, authProvider);
   }
 }
 
